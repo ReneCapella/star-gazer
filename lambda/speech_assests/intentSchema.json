@@ -1,0 +1,45 @@
+{
+    "intents" : [
+        {
+            "intent": "GetWeatherIntent",
+            "slots": [
+              {
+                "name": "Date",
+                "type": "AMAZON.DATE"
+              },
+              {
+                "name": "Time",
+                "type": "AMAZON.TIME"
+              },
+              {
+                  "name": "Zipcode",
+                  "type": "AMAZON.NUMBER"
+              },
+            ]
+        },
+        {
+            "intent": "AMAZON.SearchAction<object@WeatherForecast>"
+        },
+        {
+            "intent": "AMAZON.SearchAction<object@WeatherForecast[weatherCondition]>"
+        },
+        {
+            "intent": "AMAZON.SearchAction<object@WeatherForecast[temperature]>"
+        },
+        {
+            "intent": "AMAZON.YesIntent"
+        },
+        {
+            "intent": "AMAZON.NoIntent"
+        },
+        {
+            "intent": "AMAZON.HelpIntent"
+        },
+        {
+            "intent": "AMAZON.StopIntent"
+        },
+        {
+            "intent": "AMAZON.CancelIntent"
+        }
+    ]
+}
