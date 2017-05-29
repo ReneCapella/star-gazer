@@ -8,7 +8,6 @@ const https = require('https');
 ////////////////////////////////
 //TEXT STRINGS-modify to change behavior of Lambda
 ////////////////////////////////
-// var myRequest = 'Paris';
 var responseDataArray = [];
 
 ////////////////////////////////
@@ -17,7 +16,7 @@ var responseDataArray = [];
 var APP_ID = 'amzn1.ask.skill.92a24c78-c2ca-410f-aa76-9ea83c7dcf55';//Application ID here from Dev Portal
 
 var SKILL_NAME = "Star Gazer";//Skill Name Goes here
-var WELCOME_MESSAGE = "I love to gaze at the stars. How can I help you?";
+var WELCOME_MESSAGE = "I love to gaze at the stars. Tell me the zipcode from where you'll be stargazing tonight.";
 var GET_WEATHER_MESSAGE = "I'm learning how to tell you whether the weather is good for star gazing!";
 var HELP_MESSAGE = "You can ask is the weather good for star gazing in a certain zipcode, or, you can say exit... What can I help you with?";
 var HELP_REPROMPT = "When would you like to see the stars?";
@@ -51,7 +50,10 @@ var handlers = {
         var date = this.event.request.intent.slots.Date.value;
         var time = this.event.request.intent.slots.Time.value
         if (zipcode.length > 0){
-            myRequest = zipcode;
+            var clearHours = [];
+            
+            console.log( "my request= " + myRequest);
+            var myRequest = zipcode;
             httpsGetCurrent ( myRequest,  (myResult) => {
                 // console.log("sent     : " + myRequest);
                 // console.log("received : ", myResult);
@@ -60,16 +62,14 @@ var handlers = {
                 var localTime = myResult.location.localtime;
                 var dayTime = myResult.current.is_day;
                 var sunset = myResult.forecast.forecastday[0].astro.sunset
-                var byHourForecast = myResult.forecast.forecastday[0].hour;
-                var clearHours = [];
-                var clearOutput = clearHours.join(" ")
-                var notClearHours = [];
+                var byHourToday = myResult.forecast.forecastday[0].hour;
+                var byHourTomorrow = myResult.forecast.forecastday[0].hour;
                 var totalHoursNightCount = 0;
                 var clearConditionsHourCount = 0;
 
                 var getClearHours = function(){
-                    for (var i = 0; i < byHourForecast.length; i++) {
-                        var forecastTime = byHourForecast[i].time;
+                    for (var i = 0; i < byHourToday.length; i++) {
+                        var forecastTime = byHourToday[i].time;
                         var acceptIt = function(){
                             var breakUpDateTime = forecastTime.split(" ");
                             var breakUpHourMin = breakUpDateTime[1].split(":");
@@ -78,27 +78,53 @@ var handlers = {
                                 return true;
                             };
                         };
-                        if( (byHourForecast[i].is_day == 0) && (acceptIt()) ){
-                            console.log(byHourForecast[i]);
+                        if( (byHourToday[i].is_day == 0) && (acceptIt()) ){
+                            // console.log(byHourForecast[i]);
                             totalHoursNightCount++;
-                            if(byHourForecast[i].condition.text != 'Clear' ){
-                                var timeArray = byHourForecast[i].time.split(" ");
+                            if(byHourToday[i].condition.text != 'Clear' ){
+                                var timeArray = byHourToday[i].time.split(" ");
                                 notClearHours.push(timeArray[1]);
                                 // console.log(notClearHours);
-                            } else if(byHourForecast[i].condition.text == 'Clear'){
+                            } else if(byHourToday[i].condition.text == 'Clear'){
                                 clearConditionsHourCount++;
-                                var timeArray = byHourForecast[i].time.split(" ");
+                                var timeArray = byHourToday[i].time.split(" ");
                                 clearHours.push(timeArray[1]);
                             };
                         };
-
+                    };
+                    for (var i = 0; i < byHourTomorrow.length; i++) {
+                        var forecastTime = byHourTomorrow[i].time;
+                        var acceptIt = function(){
+                            var breakUpDateTime = forecastTime.split(" ");
+                            var breakUpHourMin = breakUpDateTime[1].split(":");
+                            var getHour = breakUpHourMin[0];
+                            if(getHour < 9){
+                                return true;
+                            };
+                        };
+                        if( (byHourTomorrow[i].is_day == 0) && (acceptIt()) ){
+                            // console.log(byHourForecast[i]);
+                            totalHoursNightCount++;
+                            if(byHourTomorrow[i].condition.text != 'Clear' ){
+                                var timeArray = byHourTomorrow[i].time.split(" ");
+                                notClearHours.push(timeArray[1]);
+                                // console.log(notClearHours);
+                            } else if(byHourTomorrow[i].condition.text == 'Clear'){
+                                clearConditionsHourCount++;
+                                var timeArray = byHourTomorrow[i].time.split(" ");
+                                clearHours.push(timeArray[1]);
+                            };
+                        };
                     };
                 };
-                console.log('clearOutput' + clearOutput);
+                var alexifyHours = function(){
+
+                };
+                alexifyHours();
                 if(dayTime == 1){
                     getClearHours();
                     if(clearConditionsHourCount/ totalHoursNightCount == 1){
-                        this.emit(':tell', "It's currently daytime in " + city + " but it will be clear all night tonight starting at sunset around " + sunset + ".");
+                        this.emit(':tell', "It's currently daytime in " + city + " but it will be clear all night tonight starting at sunset around " + sunset + "." + clearHours);
                     } else {
                         this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast tonight. It looks like conditions will be less that perfect at " + clearOutput);
                     };
@@ -108,6 +134,8 @@ var handlers = {
                     this.emit(':tell', 'The weather for star gazing in ' + city + ' is ' + weatherCondition );
                 };
             });
+        } else if(!zipcode>0 || !date>0 || time>0){
+            this.emit(':ask', 'What is the zipcode you want to star gaze in?')
         } else {
             this.emit(':tell', 'Oops, I forgot to get your location. I need to figure this out.');
         };
