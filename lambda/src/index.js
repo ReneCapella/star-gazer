@@ -16,8 +16,7 @@ var responseDataArray = [];
 var APP_ID = 'amzn1.ask.skill.92a24c78-c2ca-410f-aa76-9ea83c7dcf55';//Application ID here from Dev Portal
 
 var SKILL_NAME = "Star Gazer";//Skill Name Goes here
-var WELCOME_MESSAGE = "I love to gaze at the stars. Tell me the zipcode from where you'll be stargazing tonight.";
-// var GET_WEATHER_MESSAGE = "I'm learning how to tell you whether the weather is good for star gazing!";
+var WELCOME_MESSAGE = "<speak>I <emphasis level='strong'>love</emphasis> to gaze at the stars. Tell me the zipcode from where you'll be stargazing tonight.</speak>";
 var HELP_MESSAGE = "You can ask is the weather good for star gazing in a certain zipcode, or, you can say exit... What can I help you with?";
 var HELP_REPROMPT = "When would you like to see the stars?";
 var STOP_MESSAGE = "Happy gazing! Goodbye!";
@@ -93,6 +92,15 @@ var handlers = {
                     };
                     alexaNotClearHours.push(justHour);
                 };
+                var addAnd = function(array){
+                    if(array.length > 1){
+                        index = array.length - 1;
+                        array.splice(index, 0, "and");
+                        console.log(array);
+                    };
+                };
+                addAnd(alexaClearHours);
+                addAnd(alexaNotClearHours);
 
             };
 
@@ -178,7 +186,7 @@ var handlers = {
                     };
                 };
             });
-        } else if(!zipcode>0){
+        } else if(zipcode == null || zipcode == undefined){
             this.emit(':ask', 'What is the zipcode you want to star gaze in?')
         };
     },

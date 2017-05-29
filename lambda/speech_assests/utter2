@@ -1,0 +1,264 @@
+
+
+GetWeatherTodayIntent is the weather good for star gazing
+GetWeatherTodayIntent is the weather good for star gazing tonight
+GetWeatherTodayIntent is the weather good for star gazing this evening
+GetWeatherTodayIntent is the weather good for star gazing today
+GetWeatherTodayIntent is the weather good for star gazing in {Zipcode}
+GetWeatherTodayIntent is the weather good for star gazing tonight in {Zipcode}
+GetWeatherTodayIntent is the weather good for star gazing this evening in {Zipcode}
+GetWeatherTodayIntent is the weather good for star gazing today in {Zipcode}
+GetWeatherTodayIntent is the weather good for star gazing in {Zipcode} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing today in {Zipcode} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing at {Time}
+GetWeatherTodayIntent is the weather good for star gazing tonight at {Time}
+GetWeatherTodayIntent is the weather good for star gazing this evening at {Time}
+GetWeatherTodayIntent is the weather good for star gazing today at {Time}
+
+GetWeatherTodayIntent  {Zipcode}
+GetWeatherTodayIntent  tonight
+GetWeatherTodayIntent  this evening
+GetWeatherTodayIntent  in {Zipcode}
+GetWeatherTodayIntent  tonight in {Zipcode}
+GetWeatherTodayIntent  this evening in {Zipcode}
+GetWeatherTodayIntent  in {Zipcode} at {Time}
+GetWeatherTodayIntent  tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent  this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent  at {Time}
+GetWeatherTodayIntent  tonight at {Time}
+GetWeatherTodayIntent  this evening at {Time}
+
+GetWeatherTodayIntent will the weather be okay for star gazing
+GetWeatherTodayIntent will the weather be okay for star gazing tonight
+GetWeatherTodayIntent will the weather be okay for star gazing this evening
+GetWeatherTodayIntent will the weather be okay for star gazing in {Zipcode}
+GetWeatherTodayIntent will the weather be okay for star gazing tonight in {Zipcode}
+GetWeatherTodayIntent will the weather be okay for star gazing this evening in {Zipcode}
+GetWeatherTodayIntent will the weather be okay for star gazing in {Zipcode} at {Time}
+GetWeatherTodayIntent will the weather be okay for star gazing tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent will the weather be okay for star gazing this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent will the weather be okay for star gazing at {Time}
+GetWeatherTodayIntent will the weather be okay for star gazing tonight at {Time}
+GetWeatherTodayIntent will the weather be okay for star gazing this evening at {Time}
+
+GetWeatherTodayIntent will I be able to see the sky
+GetWeatherTodayIntent will I be able to see the sky tonight
+GetWeatherTodayIntent will I be able to see the sky this evening
+GetWeatherTodayIntent will I be able to see the sky in {Zipcode}
+GetWeatherTodayIntent will I be able to see the sky tonight in {Zipcode}
+GetWeatherTodayIntent will I be able to see the sky this evening in {Zipcode}
+GetWeatherTodayIntent will I be able to see the sky in {Zipcode} at {Time}
+GetWeatherTodayIntent will I be able to see the sky tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent will I be able to see the sky this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent will I be able to see the sky at {Time}
+GetWeatherTodayIntent will I be able to see the sky tonight at {Time}
+GetWeatherTodayIntent will I be able to see the sky this evening at {Time}
+
+GetWeatherTodayIntent will we be able to see the sky
+GetWeatherTodayIntent will we be able to see the sky tonight
+GetWeatherTodayIntent will we be able to see the sky this evening
+GetWeatherTodayIntent will we be able to see the sky in {Zipcode}
+GetWeatherTodayIntent will we be able to see the sky tonight in {Zipcode}
+GetWeatherTodayIntent will we be able to see the sky this evening in {Zipcode}
+GetWeatherTodayIntent will we be able to see the sky in {Zipcode} at {Time}
+GetWeatherTodayIntent will we be able to see the sky tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent will we be able to see the sky this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent will we be able to see the sky at {Time}
+GetWeatherTodayIntent will we be able to see the sky tonight at {Time}
+GetWeatherTodayIntent will we be able to see the sky this evening at {Time}
+
+GetWeatherTodayIntent is the sky clear
+GetWeatherTodayIntent is the sky clear tonight
+GetWeatherTodayIntent is the sky clear this evening
+GetWeatherTodayIntent is the sky clear in {Zipcode}
+GetWeatherTodayIntent is the sky clear tonight in {Zipcode}
+GetWeatherTodayIntent is the sky clear this evening in {Zipcode}
+GetWeatherTodayIntent is the sky clear in {Zipcode} at {Time}
+GetWeatherTodayIntent is the sky clear tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent is the sky clear this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent is the sky clear at {Time}
+GetWeatherTodayIntent is the sky clear tonight at {Time}
+GetWeatherTodayIntent is the sky clear this evening at {Time}
+
+GetWeatherTodayIntent will the sky be clear
+GetWeatherTodayIntent will the sky be clear tonight
+GetWeatherTodayIntent will the sky be clear this evening
+GetWeatherTodayIntent will the sky be clear in {Zipcode}
+GetWeatherTodayIntent will the sky be clear tonight in {Zipcode}
+GetWeatherTodayIntent will the sky be clear this evening in {Zipcode}
+GetWeatherTodayIntent will the sky be clear in {Zipcode} at {Time}
+GetWeatherTodayIntent will the sky be clear tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent will the sky be clear this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent will the sky be clear at {Time}
+GetWeatherTodayIntent will the sky be clear tonight at {Time}
+GetWeatherTodayIntent will the sky be clear this evening at {Time}
+
+GetWeatherTodayIntent can we star gaze
+GetWeatherTodayIntent can we star gaze tonight
+GetWeatherTodayIntent can we star gaze this evening
+GetWeatherTodayIntent can we star gaze in {Zipcode}
+GetWeatherTodayIntent can we star gaze tonight in {Zipcode}
+GetWeatherTodayIntent can we star gaze this evening in {Zipcode}
+GetWeatherTodayIntent can we star gaze in {Zipcode} at {Time}
+GetWeatherTodayIntent can we star gaze tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent can we star gaze this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent can we star gaze at {Time}
+GetWeatherTodayIntent can we star gaze tonight at {Time}
+GetWeatherTodayIntent can we star gaze this evening at {Time}
+
+GetWeatherTodayIntent can I star gaze
+GetWeatherTodayIntent can I star gaze tonight
+GetWeatherTodayIntent can I star gaze this evening
+GetWeatherTodayIntent can I star gaze in {Zipcode}
+GetWeatherTodayIntent can I star gaze tonight in {Zipcode}
+GetWeatherTodayIntent can I star gaze this evening in {Zipcode}
+GetWeatherTodayIntent can I star gaze in {Zipcode} at {Time}
+GetWeatherTodayIntent can I star gaze tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent can I star gaze this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent can I star gaze at {Time}
+GetWeatherTodayIntent can I star gaze tonight at {Time}
+GetWeatherTodayIntent can I star gaze this evening at {Time}
+
+GetWeatherTodayIntent I want to star gaze
+GetWeatherTodayIntent I want to star gaze tonight
+GetWeatherTodayIntent I want to star gaze this evening
+GetWeatherTodayIntent I want to star gaze in {Zipcode}
+GetWeatherTodayIntent I want to star gaze tonight in {Zipcode}
+GetWeatherTodayIntent I want to star gaze this evening in {Zipcode}
+GetWeatherTodayIntent I want to star gaze in {Zipcode} at {Time}
+GetWeatherTodayIntent I want to star gaze tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent I want to star gaze this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent I want to star gaze at {Time}
+GetWeatherTodayIntent I want to star gaze tonight at {Time}
+GetWeatherTodayIntent I want to star gaze this evening at {Time}
+
+GetWeatherTodayIntent should I star gaze
+GetWeatherTodayIntent should I star gaze tonight
+GetWeatherTodayIntent should I star gaze this evening
+GetWeatherTodayIntent should I star gaze in {Zipcode}
+GetWeatherTodayIntent should I star gaze tonight in {Zipcode}
+GetWeatherTodayIntent should I star gaze this evening in {Zipcode}
+GetWeatherTodayIntent should I star gaze in {Zipcode} at {Time}
+GetWeatherTodayIntent should I star gaze tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent should I star gaze this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent should I star gaze at {Time}
+GetWeatherTodayIntent should I star gaze tonight at {Time}
+GetWeatherTodayIntent should I star gaze this evening at {Time}
+
+GetWeatherTodayIntent should we star gaze
+GetWeatherTodayIntent should we star gaze tonight
+GetWeatherTodayIntent should we star gaze this evening
+GetWeatherTodayIntent should we star gaze in {Zipcode}
+GetWeatherTodayIntent should we star gaze tonight in {Zipcode}
+GetWeatherTodayIntent should we star gaze this evening in {Zipcode}
+GetWeatherTodayIntent should we star gaze in {Zipcode} at {Time}
+GetWeatherTodayIntent should we star gaze tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent should we star gaze this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent should we star gaze at {Time}
+GetWeatherTodayIntent should we star gaze tonight at {Time}
+GetWeatherTodayIntent should we star gaze this evening at {Time}
+
+GetWeatherTodayIntent is the weather good for star gazing
+GetWeatherTodayIntent is the weather good for star gazing tonight
+GetWeatherTodayIntent is the weather good for star gazing this evening
+GetWeatherTodayIntent is the weather good for star gazing in {Zipcode}
+GetWeatherTodayIntent is the weather good for star gazing tonight in {Zipcode}
+GetWeatherTodayIntent is the weather good for star gazing this evening in {Zipcode}
+GetWeatherTodayIntent is the weather good for star gazing in {Zipcode} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing tonight in {Zipcode} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing this evening in {Zipcode} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing at {Time}
+GetWeatherTodayIntent is the weather good for star gazing tonight at {Time}
+GetWeatherTodayIntent is the weather good for star gazing this evening at {Time}
+
+GetWeatherForecastIntent will the weather be okay for star gazing on {Date}
+GetWeatherForecastIntent will the weather be okay for star gazing on {Date} in {Zipcode}
+GetWeatherForecastIntent will the weather be okay for star gazing on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will the weather be okay for star gazing on {Date} at {Time}
+GetWeatherForecastIntent will the weather be okay for star gazing {Date}
+GetWeatherForecastIntent will the weather be okay for star gazing {Date} in {Zipcode}
+GetWeatherForecastIntent will the weather be okay for star gazing {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will the weather be okay for star gazing {Date} at {Time}
+
+GetWeatherForecastIntent will I be able to see the sky on {Date}
+GetWeatherForecastIntent will I be able to see the sky on {Date} in {Zipcode}
+GetWeatherForecastIntent will I be able to see the sky on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will I be able to see the sky on {Date} at {Time}
+GetWeatherForecastIntent will I be able to see the sky {Date}
+GetWeatherForecastIntent will I be able to see the sky {Date} in {Zipcode}
+GetWeatherForecastIntent will I be able to see the sky {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will I be able to see the sky {Date} at {Time}
+
+GetWeatherForecastIntent will we be able to see the sky on {Date}
+GetWeatherForecastIntent will we be able to see the sky on {Date} in {Zipcode}
+GetWeatherForecastIntent will we be able to see the sky on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will we be able to see the sky on {Date} at {Time}
+GetWeatherForecastIntent will we be able to see the sky {Date}
+GetWeatherForecastIntent will we be able to see the sky {Date} in {Zipcode}
+GetWeatherForecastIntent will we be able to see the sky {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will we be able to see the sky {Date} at {Time}
+
+GetWeatherForecastIntent will the sky be clear on {Date}
+GetWeatherForecastIntent will the sky be clear on {Date} in {Zipcode}
+GetWeatherForecastIntent will the sky be clear on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will the sky be clear on {Date} at {Time}
+GetWeatherForecastIntent will the sky be clear {Date}
+GetWeatherForecastIntent will the sky be clear {Date} in {Zipcode}
+GetWeatherForecastIntent will the sky be clear {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent will the sky be clear {Date} at {Time}
+
+GetWeatherForecastIntent can we star gaze on {Date}
+GetWeatherForecastIntent can we star gaze on {Date} in {Zipcode}
+GetWeatherForecastIntent can we star gaze on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent can we star gaze on {Date} at {Time}
+GetWeatherForecastIntent can we star gaze {Date}
+GetWeatherForecastIntent can we star gaze {Date} in {Zipcode}
+GetWeatherForecastIntent can we star gaze {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent can we star gaze {Date} at {Time}
+
+GetWeatherForecastIntent can I star gaze on {Date}
+GetWeatherForecastIntent can I star gaze on {Date} in {Zipcode}
+GetWeatherForecastIntent can I star gaze on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent can I star gaze on {Date} at {Time}
+GetWeatherForecastIntent can I star gaze {Date}
+GetWeatherForecastIntent can I star gaze {Date} in {Zipcode}
+GetWeatherForecastIntent can I star gaze {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent can I star gaze {Date} at {Time}
+
+GetWeatherForecastIntent I want to star gaze on {Date}
+GetWeatherForecastIntent I want to star gaze on {Date} in {Zipcode}
+GetWeatherForecastIntent I want to star gaze on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent I want to star gaze on {Date} at {Time}
+GetWeatherForecastIntent I want to star gaze {Date}
+GetWeatherForecastIntent I want to star gaze {Date} in {Zipcode}
+GetWeatherForecastIntent I want to star gaze {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent I want to star gaze {Date} at {Time}
+
+GetWeatherForecastIntent should I star gaze  on {Date}
+GetWeatherForecastIntent should I star gaze  on {Date} in {Zipcode}
+GetWeatherForecastIntent should I star gaze  on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent should I star gaze  on {Date} at {Time}
+GetWeatherForecastIntent should I star gaze  {Date}
+GetWeatherForecastIntent should I star gaze  {Date} in {Zipcode}
+GetWeatherForecastIntent should I star gaze  {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent should I star gaze  {Date} at {Time}
+
+GetWeatherForecastIntent should we star gaze on {Date}
+GetWeatherForecastIntent should we star gaze on {Date} in {Zipcode}
+GetWeatherForecastIntent should we star gaze on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent should we star gaze on {Date} at {Time}
+GetWeatherForecastIntent should we star gaze {Date}
+GetWeatherForecastIntent should we star gaze {Date} in {Zipcode}
+GetWeatherForecastIntent should we star gaze {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent should we star gaze {Date} at {Time}
+
+GetWeatherForecastIntent on {Date}
+GetWeatherForecastIntent on {Date} in {Zipcode}
+GetWeatherForecastIntent on {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent on {Date} at {Time}
+GetWeatherForecastIntent {Date}
+GetWeatherForecastIntent {Date} in {Zipcode}
+GetWeatherForecastIntent {Date} in {Zipcode} at {Time}
+GetWeatherForecastIntent {Date} at {Time}

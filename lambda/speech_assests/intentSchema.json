@@ -3,44 +3,44 @@
         {
             "intent": "GetWeatherTodayIntent",
             "slots": [
-              {
-                "name": "Date",
-                "type": "AMAZON.DATE"
-              },
-              {
-                "name": "Time",
-                "type": "AMAZON.TIME"
-              },
-              {
-                  "name": "Zipcode",
-                  "type": "AMAZON.NUMBER"
-              }
+                {
+                    "name": "Date",
+                    "type": "AMAZON.DATE"
+                },
+                {
+                    "name": "Time",
+                    "type": "AMAZON.TIME"
+                },
+                {
+                    "name": "Zipcode",
+                    "type": "AMAZON.NUMBER"
+                }
             ]
-        },
-      {
-            "intent": "GetWeatherFutureIntent",
+        }
+        {
+            "intent": "GetWeatherForecastIntent",
             "slots": [
-              {
-                "name": "Date",
-                "type": "AMAZON.DATE"
-              },
-              {
-                "name": "Time",
-                "type": "AMAZON.TIME"
-              },
-              {
-                  "name": "Zipcode",
-                  "type": "AMAZON.NUMBER"
-              }
+                {
+                    "name": "Date",
+                    "type": "AMAZON.DATE"
+                },
+                {
+                    "name": "Time",
+                    "type": "AMAZON.TIME"
+                },
+                {
+                    "name": "Zipcode",
+                    "type": "AMAZON.NUMBER"
+                }
             ]
         },
         {
             "intent": "GetZipcodeIntent",
             "slots": [
-              {
-                  "name": "Zipcode",
-                  "type": "AMAZON.NUMBER"
-              }
+                {
+                    "name": "Zipcode",
+                    "type": "AMAZON.NUMBER"
+                }
             ]
         },
         {
