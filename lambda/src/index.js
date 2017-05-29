@@ -51,8 +51,27 @@ var handlers = {
         var time = this.event.request.intent.slots.Time.value
         if (zipcode.length > 0){
             var clearHours = [];
-            
-            console.log( "my request= " + myRequest);
+            var notClearHours = [];
+            var alexaClearHours = [];
+            var alexaNotClearHours = [];
+
+            var alexifyHours = function(){
+                for (var i = 0; i < clearHours.length; i++) {
+                    var splitHour = clearHours[i].split(":");
+                    var justHour = splitHour[0] + " hundred hours";
+                    console.log("justHour clear " + justHour);
+                    alexaClearHours.push(justHour);
+                };
+                for (var i = 0; i < notClearHours.length; i++) {
+                    var splitHour = notClearHours[i].split(":");
+                    var justHour = splitHour[0] + "hundred hours";
+                    console.log("justHour notclear " + justHour);
+                    alexaNotClearHours.push(justHour);
+                };
+
+            };
+
+
             var myRequest = zipcode;
             httpsGetCurrent ( myRequest,  (myResult) => {
                 // console.log("sent     : " + myRequest);
@@ -63,7 +82,7 @@ var handlers = {
                 var dayTime = myResult.current.is_day;
                 var sunset = myResult.forecast.forecastday[0].astro.sunset
                 var byHourToday = myResult.forecast.forecastday[0].hour;
-                var byHourTomorrow = myResult.forecast.forecastday[0].hour;
+                var byHourTomorrow = myResult.forecast.forecastday[1].hour;
                 var totalHoursNightCount = 0;
                 var clearConditionsHourCount = 0;
 
@@ -79,16 +98,15 @@ var handlers = {
                             };
                         };
                         if( (byHourToday[i].is_day == 0) && (acceptIt()) ){
-                            // console.log(byHourForecast[i]);
                             totalHoursNightCount++;
                             if(byHourToday[i].condition.text != 'Clear' ){
                                 var timeArray = byHourToday[i].time.split(" ");
                                 notClearHours.push(timeArray[1]);
-                                // console.log(notClearHours);
                             } else if(byHourToday[i].condition.text == 'Clear'){
                                 clearConditionsHourCount++;
                                 var timeArray = byHourToday[i].time.split(" ");
                                 clearHours.push(timeArray[1]);
+
                             };
                         };
                     };
@@ -103,41 +121,40 @@ var handlers = {
                             };
                         };
                         if( (byHourTomorrow[i].is_day == 0) && (acceptIt()) ){
-                            // console.log(byHourForecast[i]);
                             totalHoursNightCount++;
                             if(byHourTomorrow[i].condition.text != 'Clear' ){
                                 var timeArray = byHourTomorrow[i].time.split(" ");
                                 notClearHours.push(timeArray[1]);
-                                // console.log(notClearHours);
+
                             } else if(byHourTomorrow[i].condition.text == 'Clear'){
                                 clearConditionsHourCount++;
                                 var timeArray = byHourTomorrow[i].time.split(" ");
                                 clearHours.push(timeArray[1]);
+
                             };
                         };
                     };
                 };
-                var alexifyHours = function(){
 
-                };
-                alexifyHours();
                 if(dayTime == 1){
                     getClearHours();
+                    alexifyHours();
+                    console.log("alexa not clear " + alexaNotClearHours);
+                    console.log("alexa clear " + alexaClearHours);
+                    console.log("clearHours " + clearHours);
+                    console.log("notClearHours " + notClearHours);
+
                     if(clearConditionsHourCount/ totalHoursNightCount == 1){
                         this.emit(':tell', "It's currently daytime in " + city + " but it will be clear all night tonight starting at sunset around " + sunset + "." + clearHours);
-                    } else {
-                        this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast tonight. It looks like conditions will be less that perfect at " + clearOutput);
+                    } else if (clearHours.length <= notClearHours.length){
+                        this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast tonight. You will have the highest chance of star gazing at " + alexaClearHours);
+                    } else if (clearHours.length > notClearHours.length){
+                        this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast. It will be mostly clear tonight. You're least like to see the stars at " + alexaNotClearHours);
                     };
-                } else if(weatherCondition == "cloudy" || weatherCondition == "overcast" || weatherCondition == "partly cloudy"){
-                    this.emit(':tell', 'The current weather condition in ' + city + 'is ' + weatherCondition + '. This isnt great for star gazing.')
-                } else if (weatherCondition == "clear"){
-                    this.emit(':tell', 'The weather for star gazing in ' + city + ' is ' + weatherCondition );
                 };
             });
-        } else if(!zipcode>0 || !date>0 || time>0){
+        } else if(!zipcode>0){
             this.emit(':ask', 'What is the zipcode you want to star gaze in?')
-        } else {
-            this.emit(':tell', 'Oops, I forgot to get your location. I need to figure this out.');
         };
     },
     'AMAZON.HelpIntent': function (req, res) {
@@ -174,7 +191,7 @@ var httpsGetCurrent = function (myData, callback) {
     var options = {
         host: 'api.apixu.com',
         port: 443,
-        path: '/v1/forecast.json?key=' + apiKey +'&q=' + encodeURIComponent(myData),
+        path: '/v1/forecast.json?key=' + apiKey +'&q=' + encodeURIComponent(myData) + '&days=5',
         method: 'GET'
     };
 
