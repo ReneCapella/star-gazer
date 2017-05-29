@@ -1,13 +1,20 @@
+GetWeatherTodayIntent {Zipcode}
 GetWeatherTodayIntent is the weather good for star gazing
-GetWeatherTodayIntent is the weather good for star gazing in {City}
+GetWeatherTodayIntent is the weather good for star gazing tonight
+GetWeatherTodayIntent is the weather good for star gazing this evening
+GetWeatherTodayIntent is the weather good for star gazing {Date}
 GetWeatherTodayIntent is the weather good for star gazing in {Zipcode}
-GetWeatherTodayIntent is the weather good for star gazing {Date} in {City}
 GetWeatherTodayIntent is the weather good for star gazing {Date} in {Zipcode}
 GetWeatherTodayIntent is the weather good for star gazing {Date} at {Time}
+GetWeatherTodayIntent is the weather good for star gazing {Date} at {Time} in {Zipcode}
 GetWeatherTodayIntent is the weather good for star gazing at {Time}
+GetWeatherTodayIntent is the weather good for star gazing at {Time} in {Zipcode}
 GetWeatherTodayIntent will the weather be okay for star gazing
+GetWeatherTodayIntent will the weather be okay for star gazing tonight
+GetWeatherTodayIntent will the weather be okay for star gazing this evening
 GetWeatherTodayIntent will the weather be okay for star gazing {Date}
-GetWeatherTodayIntent will the weather be okay for star gazing {Date} at {Time}
+GetWeatherTodayIntent will the weather be okay for star gazing in {Zipcode}
+GetWeatherTodayIntent will the weather be okay for star gazing {Date} at {Time} in {Zipcode}
 GetWeatherTodayIntent will the weather be okay for star gazing at {Time}
 GetWeatherTodayIntent will I be able to see the sky
 GetWeatherTodayIntent will I be able to see the sky {Date}

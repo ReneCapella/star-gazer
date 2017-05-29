@@ -19,7 +19,7 @@ var APP_ID = 'amzn1.ask.skill.92a24c78-c2ca-410f-aa76-9ea83c7dcf55';//Applicatio
 var SKILL_NAME = "Star Gazer";//Skill Name Goes here
 var WELCOME_MESSAGE = "I love to gaze at the stars. How can I help you?";
 var GET_WEATHER_MESSAGE = "I'm learning how to tell you whether the weather is good for star gazing!";
-var HELP_MESSAGE = "You can say is the weather good for star gazing, or, you can say exit... What can I help you with?";
+var HELP_MESSAGE = "You can ask is the weather good for star gazing in a certain zipcode, or, you can say exit... What can I help you with?";
 var HELP_REPROMPT = "When would you like to see the stars?";
 var STOP_MESSAGE = "Happy gazing! Goodbye!";
 
@@ -44,25 +44,73 @@ var handlers = {
         this.emit(':ask', WELCOME_MESSAGE, WELCOME_MESSAGE);
     },
     'Unhandled': function () {
-    this.emit(':ask', HELP_MESSAGE);
+        this.emit(':ask', HELP_MESSAGE);
     },
     'GetWeatherTodayIntent': function (event) {
         var zipcode = this.event.request.intent.slots.Zipcode.value;
+        var date = this.event.request.intent.slots.Date.value;
+        var time = this.event.request.intent.slots.Time.value
         if (zipcode.length > 0){
-            var myRequest =
-            this.event.request.intent.slots.Zipcode.value;
-            httpsGet(myRequest,  (myResult) => {
-                    console.log("sent     : " + myRequest);
-                    console.log("received : " + myResult);
+            myRequest = zipcode;
+            httpsGetCurrent ( myRequest,  (myResult) => {
+                // console.log("sent     : " + myRequest);
+                // console.log("received : ", myResult);
+                var city = myResult.location.name;
+                var weatherCondition = myResult.current.condition.text;
+                var localTime = myResult.location.localtime;
+                var dayTime = myResult.current.is_day;
+                var sunset = myResult.forecast.forecastday[0].astro.sunset
+                var byHourForecast = myResult.forecast.forecastday[0].hour;
+                var clearHours = [];
+                var clearOutput = clearHours.join(" ")
+                var notClearHours = [];
+                var totalHoursNightCount = 0;
+                var clearConditionsHourCount = 0;
 
-                    this.emit(':tell', 'The weather for star gazing in ' + myRequest + ' is ' + myResult );
+                var getClearHours = function(){
+                    for (var i = 0; i < byHourForecast.length; i++) {
+                        var forecastTime = byHourForecast[i].time;
+                        var acceptIt = function(){
+                            var breakUpDateTime = forecastTime.split(" ");
+                            var breakUpHourMin = breakUpDateTime[1].split(":");
+                            var getHour = breakUpHourMin[0];
+                            if(getHour > 15){
+                                return true;
+                            };
+                        };
+                        if( (byHourForecast[i].is_day == 0) && (acceptIt()) ){
+                            console.log(byHourForecast[i]);
+                            totalHoursNightCount++;
+                            if(byHourForecast[i].condition.text != 'Clear' ){
+                                var timeArray = byHourForecast[i].time.split(" ");
+                                notClearHours.push(timeArray[1]);
+                                // console.log(notClearHours);
+                            } else if(byHourForecast[i].condition.text == 'Clear'){
+                                clearConditionsHourCount++;
+                                var timeArray = byHourForecast[i].time.split(" ");
+                                clearHours.push(timeArray[1]);
+                            };
+                        };
 
-                }
-            );
+                    };
+                };
+                console.log('clearOutput' + clearOutput);
+                if(dayTime == 1){
+                    getClearHours();
+                    if(clearConditionsHourCount/ totalHoursNightCount == 1){
+                        this.emit(':tell', "It's currently daytime in " + city + " but it will be clear all night tonight starting at sunset around " + sunset + ".");
+                    } else {
+                        this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast tonight. It looks like conditions will be less that perfect at " + clearOutput);
+                    };
+                } else if(weatherCondition == "cloudy" || weatherCondition == "overcast" || weatherCondition == "partly cloudy"){
+                    this.emit(':tell', 'The current weather condition in ' + city + 'is ' + weatherCondition + '. This isnt great for star gazing.')
+                } else if (weatherCondition == "clear"){
+                    this.emit(':tell', 'The weather for star gazing in ' + city + ' is ' + weatherCondition );
+                };
+            });
         } else {
-            this.emit(':tell', 'Oops, I forgot to get your location.');
-        }
-        console.log(myRequest);
+            this.emit(':tell', 'Oops, I forgot to get your location. I need to figure this out.');
+        };
     },
     'AMAZON.HelpIntent': function (req, res) {
         console.log(req);
@@ -78,7 +126,7 @@ var handlers = {
         console.log(req);
         this.emit(':tell', STOP_MESSAGE);
     }
- };
+};
 ////////////////////////////////
 //==============================
 //END OF INTENT handlers
@@ -92,13 +140,13 @@ var handlers = {
 //============================//
 ////////////////////////////////
 var apiKey = '6deb7aeace39475b96d191651172505'
-var httpsGet = function (myData, callback) {
+var httpsGetCurrent = function (myData, callback) {
 
     // Update these options with the details of the web service you would like to call
     var options = {
         host: 'api.apixu.com',
         port: 443,
-        path: '/v1/current.json?key=' + apiKey +'&q=' + encodeURIComponent(myData),
+        path: '/v1/forecast.json?key=' + apiKey +'&q=' + encodeURIComponent(myData),
         method: 'GET'
     };
 
@@ -110,7 +158,7 @@ var httpsGet = function (myData, callback) {
         res.on('data', chunk => {
 
             returnData = returnData + chunk;
-            console.log("return data from API" + returnData);
+            // console.log("return data from API" + returnData);
         });
 
         res.on('end', () => {
@@ -120,9 +168,10 @@ var httpsGet = function (myData, callback) {
             // we may need to parse through it to extract the needed data
 
             var pop = JSON.parse(returnData);
-            console.log("pop", pop.current.condition.text);
+            // console.log(pop);
+            // console.log("pop", pop.current.condition.text);
 
-            callback(pop.current.condition.text);  // this will execute whatever function the caller defined, with one argument
+            callback(pop);  // this will execute whatever function the caller defined, with one argument
 
         });
 
@@ -131,6 +180,44 @@ var httpsGet = function (myData, callback) {
 
 }
 
+var httpsGetForecast = function (myData, callback) {
+
+    // Update these options with the details of the web service you would like to call
+    var options = {
+        host: 'api.apixu.com',
+        port: 443,
+        path: '/v1/forecast.json?key=' + apiKey +'&q=' + encodeURIComponent(myData) + '&days=5',
+        method: 'GET'
+    };
+
+    var req = https.request(options, res => {
+        res.setEncoding('utf8');
+        var returnData = [];
+
+
+        res.on('data', chunk => {
+
+            returnData = returnData + chunk;
+            // console.log("return data from API" + returnData);
+        });
+
+        res.on('end', () => {
+            // we have now received the raw return data in the returnData variable.
+            // We can see it in the log output via:
+            // console.log(JSON.stringify(returnData))
+            // we may need to parse through it to extract the needed data
+
+            var pop = JSON.parse(returnData);
+            // console.log("pop", pop.current.condition.text);
+
+            callback(pop);  // this will execute whatever function the caller defined, with one argument
+
+        });
+
+    });
+    req.end();
+
+}
 
 
 

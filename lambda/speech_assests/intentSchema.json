@@ -1,7 +1,7 @@
 {
     "intents" : [
         {
-            "intent": "GetWeatherIntent",
+            "intent": "GetWeatherTodayIntent",
             "slots": [
               {
                 "name": "Date",
@@ -14,17 +14,34 @@
               {
                   "name": "Zipcode",
                   "type": "AMAZON.NUMBER"
+              }
+            ]
+        },
+      {
+            "intent": "GetWeatherFutureIntent",
+            "slots": [
+              {
+                "name": "Date",
+                "type": "AMAZON.DATE"
               },
+              {
+                "name": "Time",
+                "type": "AMAZON.TIME"
+              },
+              {
+                  "name": "Zipcode",
+                  "type": "AMAZON.NUMBER"
+              }
             ]
         },
         {
-            "intent": "AMAZON.SearchAction<object@WeatherForecast>"
-        },
-        {
-            "intent": "AMAZON.SearchAction<object@WeatherForecast[weatherCondition]>"
-        },
-        {
-            "intent": "AMAZON.SearchAction<object@WeatherForecast[temperature]>"
+            "intent": "GetZipcodeIntent",
+            "slots": [
+              {
+                  "name": "Zipcode",
+                  "type": "AMAZON.NUMBER"
+              }
+            ]
         },
         {
             "intent": "AMAZON.YesIntent"
