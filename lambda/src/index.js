@@ -6,28 +6,11 @@ const request = require('request');
 const https = require('https');
 
 ////////////////////////////////
-//TEXT STRINGS-modify to change behavior of Lambda
-////////////////////////////////
-var responseDataArray = [];
-
-////////////////////////////////
 // SKILL CONSTANTS
 ////////////////////////////////
 var APP_ID = 'amzn1.ask.skill.92a24c78-c2ca-410f-aa76-9ea83c7dcf55';//Application ID here from Dev Portal
 var SKILL_NAME = "Star Gazer";//Skill Name Goes here
 var WELCOME_MESSAGE = "I love to gaze at the stars. What is your zipcode?";
-// var WELCOME_MESSAGE = {
-//         outputSpeech: {
-//             type: "PlainText",
-//             text: "I love to gaze at the stars. What is your zipcode?"
-//         },
-//         card: {
-//             type: "Simple",
-//             title: "Test",
-//             content: "Hello World"
-//         },
-//         shouldEndSession: false
-//     };
 var HELP_MESSAGE = "You can ask is the weather good for star gazing in a certain zipcode, or, you can say exit... What can I help you with?";
 var HELP_REPROMPT = "When would you like to see the stars?";
 var STOP_MESSAGE = "Happy gazing! Goodbye!";
@@ -53,87 +36,102 @@ var handlers = {
         var speechOutput = WELCOME_MESSAGE;
         var reprompt = HELP_REPROMPT;
         this.emit(':ask', speechOutput, reprompt);
-        // var zipcode = this.event.request.intent.slots.Zipcode.value;
-        // if (zipcode.length > 0){
-        //     GetWeatherTodayIntent()
-        // };
     },
     'Unhandled': function () {
         this.emit(':ask', HELP_MESSAGE);
     },
     'GetWeatherTodayIntent': function (event) {
-
+        //-------------------Variables-------------------
         var zipcode = this.event.request.intent.slots.Zipcode.value;
-
         var date = this.event.request.intent.slots.Date.value;
-        var time = this.event.request.intent.slots.Time.value
-        if (zipcode.length > 0){
-            var clearHours = [];
-            var notClearHours = [];
-            var alexaClearHours = [];
-            var alexaNotClearHours = [];
+        var time = this.event.request.intent.slots.Time.value;
+        var myRequest = this.event.request.intent.slots;
 
-            var alexifyHours = function(){
-                for (var i = 0; i < clearHours.length; i++) {
-                    var splitHour = clearHours[i].split(":");
-                    var justHour = splitHour[0];
-                    if(justHour > 12){
-                        justHour = justHour - 12 + "pm";
-                    } else {
-                        if(justHour < 10 || justHour == 0){
-                            justHour = justHour.split("");
-                            justHour = justHour.splice(1, 1);
-                            if(justHour == 0){
-                                justHour = "midnight";
-                            } else {
-                                justHour = justHour + "am"
-                            };
-                        };
-                    };
-                    alexaClearHours.push(justHour);
-                };
+        var clearHours = [];
+        var notClearHours = [];
+        var alexaClearHours = [];
+        var alexaNotClearHours = [];
+        var justHour;
+
+        //--------CHECK REQUEST FOR SPECIFIC TIME---------
+        var checkForTime = function(){
+            console.log(time.length);
+            if(time.length > 0){
+                console.log(notClearHours);
+                console.log('time' + time);
                 for (var i = 0; i < notClearHours.length; i++) {
-                    var splitHour = notClearHours[i].split(":");
-                    var justHour = splitHour[0];
-
-                    if(justHour > 12){
-                        justHour = justHour - 12 + "pm";
-                    } else {
-                        if(justHour < 10 || justHour == 0){
-                            justHour = justHour.split("");
-                            justHour = justHour.splice(1, 1);
-                            if(justHour == 0){
-                                justHour = "midnight";
-                            } else {
-                                justHour = justHour + "am"
-                            };
-                        };
+                    if (notClearHours[i] == time){
+                          return true;
                     };
-                    alexaNotClearHours.push(justHour);
-                };
-                var addAnd = function(array){
-                    if(array.length > 1){
-                        index = array.length - 1;
-                        array.splice(index, 0, "and");
-                        console.log(array);
+                    if (notClearHours[i] == time){
+                        return false;
                     };
                 };
-                addAnd(alexaClearHours);
-                addAnd(alexaNotClearHours);
-
+            } else {
+                console.log("no time given");
             };
+        };
 
-            var myRequest = this.event.request.intent.slots;
-            var myRequestZipcode = zipcode;
-            var myRequestTime = time;
-            console.log(myRequestTime);
+        //---FUNCTIONS TO CHANGE MAKE HOURS READABLE FOR ALEXA--
+        //======================================================
+        //---------------makes hour readable by alexa-----------
+        var clearNotClearPrep = function(){
+        //a function to return a single or double digit only for time
+            for (var i = 0; i < clearHours.length; i++) {
+                //iterate through all clear hours of the night
+                var splitHour = clearHours[i].split(":");
+                //splits the hour from the minute at ":"
+                var justHour = splitHour[0];
+                //grabs the first index, the hour
+                makeItAMPM(justHour);
+                //sends justHour to makeItAMPM to remove military time and add "am" or "pm"
+                alexaClearHours.push(justHour);
+                //pushes the readable hour to alexaClearHours array
+            };
+            for (var i = 0; i < notClearHours.length; i++) {
+                var splitHour = notClearHours[i].split(":");
+                var justHour = splitHour[0];
+                makeItAMPM(justHour);
+                alexaNotClearHours.push(justHour);
+            };
+        };
+        //------------------converts military time------------
+        var makeItAMPM = function(justHour){
+            if(justHour > 12){
+                justHour = justHour - 12 + "pm";
+            } else {
+                if(justHour < 10 || justHour == 0){
+                    justHour = justHour.split("");
+                    justHour = justHour.splice(1, 1);
+                    if(justHour == 0){
+                        justHour = "midnight";
+                    } else {
+                        justHour = justHour + "am"
+                    };
+                };
+            };
+        };
+        //-------------adds an "and" before last item-------
+        var addAnd = function(array){
+            if(array.length > 1){
+                index = array.length - 1;
+                array.splice(index, 0, "and");
+            };
+        };
+
+        //////////////////////////////////////////////////////
+        //----------------END OF FUNCTIONS--------------------
+        //------------BEGINNING OF CONDITIONALS---------------
+        //////////////////////////////////////////////////////
+
+        if (zipcode.length > 0){
+            //-------------------GET REQUEST---------------------
             httpsGetCurrent ( myRequest,  (myResult) => {
-                console.log("sent     : ", myRequest);
+                // console.log("sent     : ", myRequest);
                 // console.log("received : ", myResult);
+
+                //----------HTTP REQUEST DEPENDENT-VARIABLES---------
                 var city = myResult.location.name;
-                //IF TIME is not NULL, iterate through clear and notClearHours looking for a match to myRequestTime.  Maybe convert request time to the format used in the clearHour/notClearHour format (HH:MM).find a match: emite conditions for that hour. If the hour requested is not a night hour, tell user the hour requested is not a night hour.
-
-
                 var weatherCondition = myResult.current.condition.text;
                 var localTime = myResult.location.localtime;
                 var dayTime = myResult.current.is_day;
@@ -142,6 +140,8 @@ var handlers = {
                 var byHourTomorrow = myResult.forecast.forecastday[1].hour;
                 var totalHoursNightCount = 0;
                 var clearConditionsHourCount = 0;
+
+                //----------HTTP REQUEST DEPENDENT-FUNCTIONS----------
 
                 var getClearHours = function(){
                     for (var i = 0; i < byHourToday.length; i++) {
@@ -163,7 +163,6 @@ var handlers = {
                                 clearConditionsHourCount++;
                                 var timeArray = byHourToday[i].time.split(" ");
                                 clearHours.push(timeArray[1]);
-
                             };
                         };
                     };
@@ -182,50 +181,44 @@ var handlers = {
                             if(byHourTomorrow[i].condition.text != 'Clear' ){
                                 var timeArray = byHourTomorrow[i].time.split(" ");
                                 notClearHours.push(timeArray[1]);
-
                             } else if(byHourTomorrow[i].condition.text == 'Clear'){
                                 clearConditionsHourCount++;
                                 var timeArray = byHourTomorrow[i].time.split(" ");
                                 clearHours.push(timeArray[1]);
-
                             };
                         };
                     };
                 };
-                //IF TIME is not NULL, iterate through clear and notClearHours looking for a match to myRequestTime.  Maybe convert request time to the format used in the clearHour/notClearHour format (HH:MM).find a match: emite conditions for that hour. If the hour requested is not a night hour, tell user the hour requested is not a night hour. make a function: check for date: if date is true, emit hour requested.
+                //----------------------------------------------------
+                //calling functions to prep for output speech to Alexa
+                //----------------------------------------------------
+                getClearHours();
+                clearNotClearPrep();
+                addAnd(alexaClearHours);
+                addAnd(alexaNotClearHours);
+                checkForTime();//checks for a time from request
+                console.log("alexa not clear " + alexaNotClearHours);
+                console.log("alexa clear " + alexaClearHours);
+                console.log("clearHours " + clearHours);
+                console.log("notClearHours " + notClearHours);
 
-                if(dayTime == 1){
-                    getClearHours();
-                    alexifyHours();
-                    console.log("alexa not clear " + alexaNotClearHours);
-                    console.log("alexa clear " + alexaClearHours);
-                    console.log("clearHours " + clearHours);
-                    console.log("notClearHours " + notClearHours);
+                if(checkForTime){
+                    this.emit(':tell', 'The skies will be clear at ' + time);
+                } else if(!checkForTime){
+                    this.emit(':tell', 'The skies will be cloudy at ' + time);
+                };
 
+                if(time == null && dayTime == 1){
                     if(clearConditionsHourCount/ totalHoursNightCount == 1){
-                        this.emit(':tell', "It's currently daytime in " + city + " but it will be clear all night tonight starting at sunset around " + sunset + "." + clearHours);
+                        this.emit(':tell', "It's currently daytime in " + city + " but it will be clear all night tonight starting at sunset around " + sunset + ".");
                     } else if (clearConditionsHourCount == 0){
-                        this.emit(':tell', "It's currently daytime in " + city + ". Tonight will be cloudy. Ask me to check the forecast for another day. ");
+                        this.emit(':tell', "It's currently daytime in " + city + ". Tonight will be cloudy. Ask me to check the forecast for another day.");
                     } else if (clearHours.length <= notClearHours.length){
-                        this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast tonight. You will have the highest chance of star gazing at " + alexaClearHours);
+                        this.emit(':tell', "It's currently daytime in " + city + " Tonight, you will have the highest chance of seeing the stars at " + alexaClearHours);
                     } else if (clearHours.length > notClearHours.length){
-                        this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast. It will be mostly clear tonight. You're least likely to see the stars at " + alexaNotClearHours);
+                        this.emit(':tell', "It's currently daytime in " + city + ". Tonight, it will be mostly clear. It will be difficult to see the stars at " + alexaNotClearHours);
                     };
-                } else if(dayTime == 0){
-                    console.log("night");
-                    getClearHours();
-                    alexifyHours();
-                    console.log("alexa not clear " + alexaNotClearHours);
-                    console.log("alexa clear " + alexaClearHours);
-                    console.log("clearHours " + clearHours);
-                    console.log("notClearHours " + notClearHours);
-                    // checkForDate();//checks for a date from request
-                    // if( checkForTime() ){
-                    //     for (var i = 0; i < clearHours.length; i++) {
-                    //         clearHours[i];
-                    //     }
-                    // };
-
+                } else if(dayTime == 0 && dayTime == 0){
                     if(clearConditionsHourCount/ totalHoursNightCount == 1){
                         this.emit(':tell', "It will be clear all night tonight.");
                     } else if (clearConditionsHourCount == 0){
@@ -238,7 +231,7 @@ var handlers = {
                 };
             });
         } else if(zipcode == null || zipcode == undefined){
-            this.emit(':ask', 'What is the zipcode you want to star gaze in?');
+            this.emit(':ask', 'What is your Zipcode?');
         };
     },
     'AMAZON.HelpIntent': function (req, res) {
@@ -256,18 +249,13 @@ var handlers = {
         this.emit(':tell', STOP_MESSAGE);
     }
 };
-////////////////////////////////
-//==============================
-//END OF INTENT handlers
-//==============================
-////////////////////////////////
-//---------------------------------------------------
+//---------------End of Handlers---------------------
 
-////////////////////////////////
-//============================//
-// HELPER FUNCTION
-//============================//
-////////////////////////////////
+/////////////////////////////////////////////////////
+//===================================================
+// HTTP GET REQUEST FUNCTIONS
+//===================================================
+/////////////////////////////////////////////////////
 var apiKey = '6deb7aeace39475b96d191651172505'
 var httpsGetCurrent = function (myData, callback) {
 
