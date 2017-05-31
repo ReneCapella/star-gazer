@@ -14,9 +14,20 @@ var responseDataArray = [];
 // SKILL CONSTANTS
 ////////////////////////////////
 var APP_ID = 'amzn1.ask.skill.92a24c78-c2ca-410f-aa76-9ea83c7dcf55';//Application ID here from Dev Portal
-
 var SKILL_NAME = "Star Gazer";//Skill Name Goes here
-var WELCOME_MESSAGE = "<speak>I <emphasis level='strong'>love</emphasis> to gaze at the stars. Tell me the zipcode from where you'll be stargazing tonight.</speak>";
+// var WELCOME_MESSAGE = "<speak>I <emphasis level='strong'>love</emphasis> to gaze at the stars. What is your zipcode?</speak>";
+var WELCOME_MESSAGE = {
+        outputSpeech: {
+            type: "PlainText",
+            text: "testing. hello world."
+        },
+        card: {
+            type: "Simple",
+            title: "Test",
+            content: "Hello World"
+        },
+        shouldEndSession: false
+    };
 var HELP_MESSAGE = "You can ask is the weather good for star gazing in a certain zipcode, or, you can say exit... What can I help you with?";
 var HELP_REPROMPT = "When would you like to see the stars?";
 var STOP_MESSAGE = "Happy gazing! Goodbye!";
@@ -39,13 +50,17 @@ exports.handler = function(event, context, callback){
 /////////////////////////////////
 var handlers = {
     'LaunchRequest': function () {
-        this.emit(':ask', WELCOME_MESSAGE, WELCOME_MESSAGE);
+        var speechOutput = HELP_MESSAGE;
+        var reprompt = HELP_REPROMPT;
+        this.emit(':ask', speechOutput, reprompt);
     },
     'Unhandled': function () {
         this.emit(':ask', HELP_MESSAGE);
     },
     'GetWeatherTodayIntent': function (event) {
+
         var zipcode = this.event.request.intent.slots.Zipcode.value;
+
         var date = this.event.request.intent.slots.Date.value;
         var time = this.event.request.intent.slots.Time.value
         if (zipcode.length > 0){
@@ -107,7 +122,7 @@ var handlers = {
 
             var myRequest = zipcode;
             httpsGetCurrent ( myRequest,  (myResult) => {
-                // console.log("sent     : " + myRequest);
+                console.log("sent     : " + myRequest);
                 // console.log("received : ", myResult);
                 var city = myResult.location.name;
                 var weatherCondition = myResult.current.condition.text;
@@ -174,11 +189,13 @@ var handlers = {
                     alexifyHours();
                     console.log("alexa not clear " + alexaNotClearHours);
                     console.log("alexa clear " + alexaClearHours);
-                    // console.log("clearHours " + clearHours);
-                    // console.log("notClearHours " + notClearHours);
+                    console.log("clearHours " + clearHours);
+                    console.log("notClearHours " + notClearHours);
 
                     if(clearConditionsHourCount/ totalHoursNightCount == 1){
                         this.emit(':tell', "It's currently daytime in " + city + " but it will be clear all night tonight starting at sunset around " + sunset + "." + clearHours);
+                    } else if (clearConditionsHourCount == 0){
+                        this.emit(':tell', "It's currently daytime in " + city + ". Tonight will be cloudy. Ask me to check the forecast for another day. ");
                     } else if (clearHours.length <= notClearHours.length){
                         this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast tonight. You will have the highest chance of star gazing at " + alexaClearHours);
                     } else if (clearHours.length > notClearHours.length){
