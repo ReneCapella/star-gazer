@@ -15,19 +15,19 @@ var responseDataArray = [];
 ////////////////////////////////
 var APP_ID = 'amzn1.ask.skill.92a24c78-c2ca-410f-aa76-9ea83c7dcf55';//Application ID here from Dev Portal
 var SKILL_NAME = "Star Gazer";//Skill Name Goes here
-// var WELCOME_MESSAGE = "<speak>I <emphasis level='strong'>love</emphasis> to gaze at the stars. What is your zipcode?</speak>";
-var WELCOME_MESSAGE = {
-        outputSpeech: {
-            type: "PlainText",
-            text: "testing. hello world."
-        },
-        card: {
-            type: "Simple",
-            title: "Test",
-            content: "Hello World"
-        },
-        shouldEndSession: false
-    };
+var WELCOME_MESSAGE = "I love to gaze at the stars. What is your zipcode?";
+// var WELCOME_MESSAGE = {
+//         outputSpeech: {
+//             type: "PlainText",
+//             text: "I love to gaze at the stars. What is your zipcode?"
+//         },
+//         card: {
+//             type: "Simple",
+//             title: "Test",
+//             content: "Hello World"
+//         },
+//         shouldEndSession: false
+//     };
 var HELP_MESSAGE = "You can ask is the weather good for star gazing in a certain zipcode, or, you can say exit... What can I help you with?";
 var HELP_REPROMPT = "When would you like to see the stars?";
 var STOP_MESSAGE = "Happy gazing! Goodbye!";
@@ -50,9 +50,13 @@ exports.handler = function(event, context, callback){
 /////////////////////////////////
 var handlers = {
     'LaunchRequest': function () {
-        var speechOutput = HELP_MESSAGE;
+        var speechOutput = WELCOME_MESSAGE;
         var reprompt = HELP_REPROMPT;
         this.emit(':ask', speechOutput, reprompt);
+        // var zipcode = this.event.request.intent.slots.Zipcode.value;
+        // if (zipcode.length > 0){
+        //     GetWeatherTodayIntent()
+        // };
     },
     'Unhandled': function () {
         this.emit(':ask', HELP_MESSAGE);
@@ -119,12 +123,17 @@ var handlers = {
 
             };
 
-
-            var myRequest = zipcode;
+            var myRequest = this.event.request.intent.slots;
+            var myRequestZipcode = zipcode;
+            var myRequestTime = time;
+            console.log(myRequestTime);
             httpsGetCurrent ( myRequest,  (myResult) => {
-                console.log("sent     : " + myRequest);
+                console.log("sent     : ", myRequest);
                 // console.log("received : ", myResult);
                 var city = myResult.location.name;
+                //IF TIME is not NULL, iterate through clear and notClearHours looking for a match to myRequestTime.  Maybe convert request time to the format used in the clearHour/notClearHour format (HH:MM).find a match: emite conditions for that hour. If the hour requested is not a night hour, tell user the hour requested is not a night hour.
+
+
                 var weatherCondition = myResult.current.condition.text;
                 var localTime = myResult.location.localtime;
                 var dayTime = myResult.current.is_day;
@@ -183,6 +192,7 @@ var handlers = {
                         };
                     };
                 };
+                //IF TIME is not NULL, iterate through clear and notClearHours looking for a match to myRequestTime.  Maybe convert request time to the format used in the clearHour/notClearHour format (HH:MM).find a match: emite conditions for that hour. If the hour requested is not a night hour, tell user the hour requested is not a night hour. make a function: check for date: if date is true, emit hour requested.
 
                 if(dayTime == 1){
                     getClearHours();
@@ -201,10 +211,34 @@ var handlers = {
                     } else if (clearHours.length > notClearHours.length){
                         this.emit(':tell', "It's currently daytime in " + city + " but I looked ahead at the forecast. It will be mostly clear tonight. You're least likely to see the stars at " + alexaNotClearHours);
                     };
+                } else if(dayTime == 0){
+                    console.log("night");
+                    getClearHours();
+                    alexifyHours();
+                    console.log("alexa not clear " + alexaNotClearHours);
+                    console.log("alexa clear " + alexaClearHours);
+                    console.log("clearHours " + clearHours);
+                    console.log("notClearHours " + notClearHours);
+                    // checkForDate();//checks for a date from request
+                    // if( checkForTime() ){
+                    //     for (var i = 0; i < clearHours.length; i++) {
+                    //         clearHours[i];
+                    //     }
+                    // };
+
+                    if(clearConditionsHourCount/ totalHoursNightCount == 1){
+                        this.emit(':tell', "It will be clear all night tonight.");
+                    } else if (clearConditionsHourCount == 0){
+                        this.emit(':tell', "Tonight will be cloudy. Ask me to check the forecast for another day. ");
+                    } else if (clearHours.length <= notClearHours.length){
+                        this.emit(':tell', "You will have the highest chance of star gazing at " + alexaClearHours);
+                    } else if (clearHours.length > notClearHours.length){
+                        this.emit(':tell', "It will be mostly clear tonight. You're least likely to see the stars at " + alexaNotClearHours);
+                    };
                 };
             });
         } else if(zipcode == null || zipcode == undefined){
-            this.emit(':ask', 'What is the zipcode you want to star gaze in?')
+            this.emit(':ask', 'What is the zipcode you want to star gaze in?');
         };
     },
     'AMAZON.HelpIntent': function (req, res) {
@@ -238,10 +272,11 @@ var apiKey = '6deb7aeace39475b96d191651172505'
 var httpsGetCurrent = function (myData, callback) {
 
     // Update these options with the details of the web service you would like to call
+    console.log('zipcode in request = ', myData.Zipcode.value);
     var options = {
         host: 'api.apixu.com',
         port: 443,
-        path: '/v1/forecast.json?key=' + apiKey +'&q=' + encodeURIComponent(myData) + '&days=5',
+        path: '/v1/forecast.json?key=' + apiKey +'&q=' + encodeURIComponent(myData.Zipcode.value) + '&days=5',
         method: 'GET'
     };
 
