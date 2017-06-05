@@ -1,4 +1,4 @@
-// This is a Javascript test harness that simulates the execution of Lambda function code
+// This is a Javascript test that simulates the execution of Lambda function code
 // From the command prompt, type "node test.js"
 
 var MyLambdaFunction = require('../src/index.js'); // assumes single Lambda function with exports.handler

@@ -1,62 +1,67 @@
 {
-    "intents" : [
+  "intents": [
+    {
+      "slots": [
         {
-            "intent": "GetWeatherTodayIntent",
-            "slots": [
-                {
-                    "name": "Date",
-                    "type": "AMAZON.DATE"
-                },
-                {
-                    "name": "Time",
-                    "type": "AMAZON.TIME"
-                },
-                {
-                    "name": "Zipcode",
-                    "type": "AMAZON.NUMBER"
-                }
-            ]
+          "name": "Zipcode",
+          "type": "AMAZON.NUMBER"
         }
+      ],
+      "intent": "GetWeatherTodayIntent"
+    },
+    {
+      "slots": [
         {
-            "intent": "GetWeatherForecastIntent",
-            "slots": [
-                {
-                    "name": "Date",
-                    "type": "AMAZON.DATE"
-                },
-                {
-                    "name": "Time",
-                    "type": "AMAZON.TIME"
-                },
-                {
-                    "name": "Zipcode",
-                    "type": "AMAZON.NUMBER"
-                }
-            ]
+          "name": "Time",
+          "type": "AMAZON.TIME"
         },
         {
-            "intent": "GetZipcodeIntent",
-            "slots": [
-                {
-                    "name": "Zipcode",
-                    "type": "AMAZON.NUMBER"
-                }
-            ]
-        },
-        {
-            "intent": "AMAZON.YesIntent"
-        },
-        {
-            "intent": "AMAZON.NoIntent"
-        },
-        {
-            "intent": "AMAZON.HelpIntent"
-        },
-        {
-            "intent": "AMAZON.StopIntent"
-        },
-        {
-            "intent": "AMAZON.CancelIntent"
+          "name": "Zipcode",
+          "type": "AMAZON.NUMBER"
         }
-    ]
+      ],
+      "intent": "GetWeatherTimeIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        },
+        {
+          "name": "Time",
+          "type": "AMAZON.TIME"
+        },
+        {
+          "name": "Zipcode",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "GetWeatherForecastIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Zipcode",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "GetZipcodeIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    },
+    {
+      "intent": "AMAZON.NoIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
 }
