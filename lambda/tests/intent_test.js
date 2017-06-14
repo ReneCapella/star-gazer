@@ -12,7 +12,7 @@ var event =
                 "applicationId": "amzn1.ask.skill.92a24c78-c2ca-410f-aa76-9ea83c7dcf55"
             },
             "attributes": {
-                // "zipcode": "98223"
+                "zipcode": "98223"
             },
             "user": {
                 "userId": "amzn1.ask.account.AFWYF4KTDQ74XDLCUJOOMAN5RH2GVV2URTQLSDA3UFT44N3KTTL4ZAQSIM3W4ZLYYITBQJQLH3SVVXRZ7ZB7U7RGPZVWJX4LJIWTYFJFTZ6PEQLE6ROQLLMVFTOHLVV67MNMLKDL2S3C243UMPW2FDCMEN2J3XYX5LIXLSBOBH2FNVT3I5I7T7WVIRIWTNHFC55VE3ZLY5JJJYI"
@@ -26,19 +26,19 @@ var event =
 
             "locale": "en-US",
             "intent": {
-                "name": "GetWeatherTimeIntent",
+                "name": "GetWeatherDateIntent",
                 "slots": {
                     "Zipcode": {
-                        "name": "Zipcode",
-                        "value": "98223"
+                        "name": "Zipcode"
+                        // "value": "98223"
                     },
                     "Time": {
-                        "name": "Time",
-                        "value": "13:00"
+                        "name": "Time"
+                        // "value": "13:00"
                     },
                     "Date": {
-                        "name": "Date"
-                        // "value": "2017-06-04"
+                        "name": "Date",
+                        "value": "2017-06-21"
                     }
                 }
             }

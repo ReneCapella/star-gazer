@@ -214,6 +214,7 @@ var handlers = {
     },
     'GetWeatherDateIntent': function () {
         var date = this.event.request.intent.slots.Date.value;
+        console.log("date " + date);
         var zipcode = '';
         if (this.attributes['zipcode']) {
             zipcode = this.attributes['zipcode'];
@@ -224,34 +225,70 @@ var handlers = {
             this.emit(':ask', 'I dont know your zipcode yet. You can say: I want to star gaze in...followed by your zipcode and, if you want, at a specific hour. Otherwise, I will tell you the general forecast.');
         };
         var myRequest = zipcode;
+        if (zipcode && date) {
+          httpsGet ( myRequest,  (myResult) => {
+          // console.log("sent from Time        : ", myRequest);
+          // console.log("received back for Time: ", myResult);
+              var speechOutput;
+              var byHourToday = myResult.forecast.forecastday[0].hour;
+              var city = myResult.location.name;
+              var byHourDate = [];
+              var isDay;
+              var getDateWeather = function(){
+                  for (var i = 0; i < myResult.forecast.forecastday.length; i++) {
+                    console.log("date "+ date + "requested " + myResult.forecast.forecastday[i].date);
+                      if(myResult.forecast.forecastday[i].date == date){
 
-        httpsGet ( myRequest,  (myResult) => {
-        // console.log("sent from Time        : ", myRequest);
-        // console.log("received back for Time: ", myResult);
-            var speechOutput;
-            var getDateMatch = function(){
-                for (var i = 0; i < myResult.forecast.forecastday.length; i++) {
-                    if(myResult.forecast.forecastday[i].date == date){
-                        date = date.split("-");
-                        var month = months[date[1] - 1];
-                        var day = ordinals[date[2] - 1];
-                        var sunset = myResult.forecast.forecastday[i].astro.sunset;
-                        if(myResult.forecast.forecastday[i].day.condition.text == "clear"){
-                            speechOutput = "The forecast for " + month + " " + day + " is: " +   myResult.forecast.forecastday[i].day.condition.text + ". You can start star gazing after " + sunset + ".";
-                            return speechOutput;
-                        } else if(myResult.forecast.forecastday[i].day.condition.text != "clear"){
-                            speechOutput = "The forecast for " + month + " " + day + " is: " +   myResult.forecast.forecastday[i].day.condition.text + ". Not the best forecast for star gazing...";
-                            return speechOutput
-                        };
+                          byHourDate = myResult.forecast.forecastday[i].hour;
+                          getClearHours(byHourToday, byHourDate);
+                          clearNotClearPrep();
+                          addAnd(alexaClearHours);
+                          addAnd(alexaNotClearHours);//checks for a time from request
 
-                    }else {
-                        speechOutput = "The date you've requested may be beyond my 10 day forecast window.";
-                    };
-                };
-            };
-            getDateMatch()
-            this.emit(':tell', speechOutput);
-        });
+                          var modDate = date.split("-");
+                          console.log("date " + date);
+                          isDay = myResult.forecast.forecastday[i].is_day;
+                          var month = months[modDate[1] - 1];
+                          // console.log("month " + month);
+                          var day = ordinals[modDate[2] - 1];
+                          console.log("day "+ day);
+                          var sunset = myResult.forecast.forecastday[i].astro.sunset;
+                          sunset = sunset.split(":");
+                          sunset = sunset[0];
+                          sunset = sunset.split("");
+                          sunset = sunset[1] + "pm";
+                          console.log("set " + sunset);
+
+
+                          if(clearConditionsHourCount/ totalHoursNightCount == 1){
+
+                              speechOutput = "It will be clear all night on " + month + day + " in " + city + " after " + sunset + ". These are great conditions for star gazing!";
+                              return speechOutput;
+                          } else if (clearConditionsHourCount == 0){
+                              speechOutput = "There are no forecasted opportune conditions on " + month + day + " in " + city;
+                              return speechOutput;
+                          } else if (clearHours.length <= notClearHours.length){
+                              speechOutput = "On " + month +" "+ day + " in " + city + " after " + sunset + " you'll have the best chance to see the stars at " + alexaClearHours;
+                              return speechOutput;
+                          } else if (clearHours.length > notClearHours.length){
+                              speechOutput = "On " + month + day + " in " + city + " after " + sunset + " it will be mostly clear for star gazing. There is forecasted overcast or clouds at " + alexaNotClearHours;
+                              return speechOutput;
+                          };
+                      } else {
+                          speechOutput = "The date you've requested may be beyond my 10 day forecast window.";
+                          
+                      };
+                      // this.emit(':tell', speechOutput);
+                  };
+              };
+              getDateWeather()
+              this.emit(':tell', speechOutput);
+          });
+
+        } else {
+          this.emit(':ask', HELP_MESSAGE);
+        }
+
     },
     'GetWeatherTimeIntent': function () {
         var time = this.event.request.intent.slots.Time.value;
@@ -268,7 +305,7 @@ var handlers = {
         var myRequest = zipcode;
 
         //--------CHECK REQUEST FOR SPECIFIC TIME---------
-        if(time.length > 0){
+        if(time && zipcode){
             httpsGet ( myRequest,  (myResult) => {
             // console.log("sent from Time        : ", myRequest);
             // console.log("received back for Time: ", myResult);
@@ -321,7 +358,7 @@ var handlers = {
         //------------BEGINNING OF CONDITIONALS---------------
         //////////////////////////////////////////////////////
 
-        if (zipcode.length > 0){
+        if (zipcode){
             //-------------------GET REQUEST---------------------
             httpsGet ( myRequest,  (myResult) => {
                 //----------HTTP REQUEST DEPENDENT-VARIABLES---------
