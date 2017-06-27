@@ -1,6 +1,8 @@
 # star-gazer
 An Alexa App aimed promoting your chanes of star-gazing by providing weather for star gazing hours
 
+[Link to Demo](https://youtu.be/mGRstOzNAzI)
+
 ### Tech
 **Star Gazer** is a Lambda function via AWS. The code is run when invoked. A user enabled the skill "star gazer" in the 
 Alexa Skill store, and then the user can trigger Intents with utterances spake thorugh the VUI. 
